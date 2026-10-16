@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ru">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   CoworkingFinder — рабочее место под ваши задачи
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <header class="header">
+   <div class="wrap nav">
+    <a class="brand" href="#">
+     <span class="brand-mark">
+      C
+     </span>
+     CoworkingFinder
+    </a>
+    <nav>
+     <a href="#catalog">
+      Каталог
+     </a>
+     <a href="#assistant">
+      ИИ-помощник
+     </a>
+     <a href="#about">
+      О проекте
+     </a>
+    </nav>
+   </div>
+  </header>
+  <main>
+   <section class="hero">
+    <div class="wrap hero-inner">
+     <div class="eyebrow">
+      ПРОСТРАНСТВО ДЛЯ ВАШИХ ИДЕЙ
+     </div>
+     <h1>
+      Найдите место,
+      <br/>
+      где
+      <em>
+       работается лучше.
+      </em>
+     </h1>
+     <p>
+      Коворкинги для учёбы, встреч и продуктивной работы. Выбирайте по цене, городу и удобствам.
+     </p>
+     <a class="button primary" href="#catalog">
+      Подобрать коворкинг
+      <span>
+       ↗
+      </span>
+     </a>
+     <div class="hero-stats">
+      <span>
+       <strong>
+        6
+       </strong>
+       пространств
+      </span>
+      <span>
+       <strong>
+        3
+       </strong>
+       города
+      </span>
+      <span>
+       <strong>
+        0 ₽
+       </strong>
+       за поиск
+      </span>
+     </div>
+    </div>
+    <div class="hero-art">
+     <div class="art-window">
+      <div class="art-sun">
+      </div>
+      <div class="art-table">
+      </div>
+      <div class="art-chair">
+      </div>
+      <div class="art-plant">
+       ✳
+      </div>
+     </div>
+     <span class="art-caption">
+      ВАШЕ МЕСТО ДЛЯ БОЛЬШИХ ДЕЛ
+     </span>
+    </div>
+   </section>
+   <section class="section wrap" id="catalog">
+    <div class="section-head">
+     <div>
+      <div class="eyebrow dark">
+       ИССЛЕДУЙТЕ ПРОСТРАНСТВА
+      </div>
+      <h2>
+       Подберите свой коворкинг
+      </h2>
+     </div>
+     <p>
+     </p>
+    </div>
+    <div class="filters">
+     <label>
+      Поиск
+      <input id="search" placeholder="Название или удобства"/>
+     </label>
+     <label>
+      Город
+      <select id="city">
+       <option value="">
+        Все города
+       </option>
+       <option>
+        Москва
+       </option>
+       <option>
+        Санкт-Петербург
+       </option>
+       <option>
+        Казань
+       </option>
+      </select>
+     </label>
+     <label>
+      Цена до, ₽/день
+      <input id="price" min="0" placeholder="Без ограничений" type="number"/>
+     </label>
+     <button class="button secondary" id="reset">
+      Сбросить
+     </button>
+    </div>
+    <div class="results-row">
+     <span id="count">
+     </span>
+     <span>
+     </span>
+    </div>
+    <div class="cards" id="cards">
+    </div>
+   </section>
+   <section class="assistant-section" id="assistant">
+    <div class="wrap assistant-layout">
+     <div>
+      <div class="eyebrow">
+       СЛЕДУЮЩИЙ ЭТАП ПРОЕКТА
+      </div>
+      <h2>
+       Опишите идеальное место.
+       <br/>
+       Помощник подскажет.
+      </h2>
+      <p>
+      </p>
+      <div class="notice">
+       ⚑ Сейчас это демонстрация интерфейса. BM25 и LLM не подключены.
+      </div>
+     </div>
+     <div class="chat">
+      <div class="chat-top">
+       <span class="online-dot">
+       </span>
+       Coworking AI
+       <span class="demo-tag">
+        ДЕМО
+       </span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+       <div class="bubble bot">
+        Привет! Опишите, какой коворкинг вам нужен. Я покажу пример будущего ответа.
+       </div>
+      </div>
+      <form class="chat-input" id="chatForm">
+       <input id="question" placeholder="Например, до 800 ₽ с переговорной" required=""/>
+       <button aria-label="Отправить" type="submit">
+        ➜
+       </button>
+      </form>
+     </div>
+    </div>
+   </section>
+   <section class="section wrap about" id="about">
+    <div class="eyebrow dark">
+     О ПРОЕКТЕ
+    </div>
+    <h2>
+     Место, где работа становится вдохновением
+    </h2>
+    <p>
+     Уютная атмосфера, продуманное пространство и всё необходимое для продуктивного дня. CoworkingFinder объединяет коворкинги, среди которых ты сможешь найти идеальное сочетание комфорта, расположения и возможностей.
+   </section>
+  </main>
+  <footer>
+   <div class="wrap footer-inner">
+    <strong>
+     CoworkingFinder
+    </strong>
+    <span>
+     Учебный проект · 2026
+    </span>
+   </div>
+  </footer>
+  <dialog id="details">
+   <button aria-label="Закрыть" class="close" id="close">
+    ×
+   </button>
+   <div id="detailsContent">
+   </div>
+  </dialog>
+  <script src="data.js">
+  </script>
+  <script src="app.js">
+  </script>
+ </body>
+</html>
+
