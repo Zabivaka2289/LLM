@@ -46,7 +46,7 @@ node tests/assistant.test.js
 frontend/    сайт: index.html, styles.css, data.js, assistant.js, app.js
 spec/        product/ — продукт и сценарии; tech/ — архитектура и RAG
 tests/       автотесты движка и чек-лист ручной проверки
-backend/     будущий API (пока пусто)
+backend/     будущий API на FastAPI (в разработке)
 benchmark/   будущий набор вопросов для оценки RAG (пока пусто)
 ```
 
