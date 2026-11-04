@@ -1,220 +1,118 @@
 <!doctype html>
 <html lang="ru">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   CoworkingFinder — рабочее место под ваши задачи
-  </title>
-  <link href="styles.css" rel="stylesheet"/>
- </head>
- <body>
-  <header class="header">
-   <div class="wrap nav">
-    <a class="brand" href="#">
-     <span class="brand-mark">
-      C
-     </span>
-     CoworkingFinder
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CoworkingFinder — ИИ-консультант</title>
+  <meta name="description" content="ИИ-консультант: короткий бриф и живая подборка коворкингов. Учебный демо-прототип.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script>
+    try {
+      const saved = localStorage.getItem("cwf.theme");
+      if (saved) document.documentElement.dataset.theme = saved;
+    } catch (error) {}
+  </script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#" id="brand" aria-label="CoworkingFinder — новый бриф">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span class="brand-name">coworking<span>finder</span></span>
     </a>
-    <nav>
-     <a href="#catalog">
-      Каталог
-     </a>
-     <a href="#assistant">
-      ИИ-помощник
-     </a>
-     <a href="#about">
-      О проекте
-     </a>
-    </nav>
-   </div>
+    <div class="top-actions">
+      <span class="demo" title="Демо-режим: ответы собираются правилами, LLM и BM25 не подключены">демо</span>
+      <button class="board-pill only-mobile" id="boardPill" type="button">
+        Подборка <span class="mono" id="pillCount">10/10</span>
+      </button>
+      <button class="icon-btn" id="resetBrief" type="button" aria-label="Новый бриф" title="Новый бриф">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7"/></svg>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Сменить тему">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16Z" class="fill"/></svg>
+      </button>
+      <button class="icon-btn" id="openAbout" type="button" aria-label="О проекте">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8h.01"/></svg>
+      </button>
+    </div>
   </header>
-  <main>
-   <section class="hero">
-    <div class="wrap hero-inner">
-     <div class="eyebrow">
-      ПРОСТРАНСТВО ДЛЯ ВАШИХ ИДЕЙ
-     </div>
-     <h1>
-      Найдите место,
-      <br/>
-      где
-      <em>
-       работается лучше.
-      </em>
-     </h1>
-     <p>
-      Коворкинги для учёбы, встреч и продуктивной работы. Выбирайте по цене, городу и удобствам.
-     </p>
-     <a class="button primary" href="#catalog">
-      Подобрать коворкинг
-      <span>
-       ↗
-      </span>
-     </a>
-     <div class="hero-stats">
-      <span>
-       <strong>
-        6
-       </strong>
-       пространств
-      </span>
-      <span>
-       <strong>
-        3
-       </strong>
-       города
-      </span>
-      <span>
-       <strong>
-        0 ₽
-       </strong>
-       за поиск
-      </span>
-     </div>
-    </div>
-    <div class="hero-art">
-     <div class="art-window">
-      <div class="art-sun">
-      </div>
-      <div class="art-table">
-      </div>
-      <div class="art-chair">
-      </div>
-      <div class="art-plant">
-       ✳
-      </div>
-     </div>
-     <span class="art-caption">
-      ВАШЕ МЕСТО ДЛЯ БОЛЬШИХ ДЕЛ
-     </span>
-    </div>
-   </section>
-   <section class="section wrap" id="catalog">
-    <div class="section-head">
-     <div>
-      <div class="eyebrow dark">
-       ИССЛЕДУЙТЕ ПРОСТРАНСТВА
-      </div>
-      <h2>
-       Подберите свой коворкинг
-      </h2>
-     </div>
-     <p>
-     </p>
-    </div>
-    <div class="filters">
-     <label>
-      Поиск
-      <input id="search" placeholder="Название или удобства"/>
-     </label>
-     <label>
-      Город
-      <select id="city">
-       <option value="">
-        Все города
-       </option>
-       <option>
-        Москва
-       </option>
-       <option>
-        Санкт-Петербург
-       </option>
-       <option>
-        Казань
-       </option>
-      </select>
-     </label>
-     <label>
-      Цена до, ₽/день
-      <input id="price" min="0" placeholder="Без ограничений" type="number"/>
-     </label>
-     <button class="button secondary" id="reset">
-      Сбросить
-     </button>
-    </div>
-    <div class="results-row">
-     <span id="count">
-     </span>
-     <span>
-     </span>
-    </div>
-    <div class="cards" id="cards">
-    </div>
-   </section>
-   <section class="assistant-section" id="assistant">
-    <div class="wrap assistant-layout">
-     <div>
-      <div class="eyebrow">
-       СЛЕДУЮЩИЙ ЭТАП ПРОЕКТА
-      </div>
-      <h2>
-       Опишите идеальное место.
-       <br/>
-       Помощник подскажет.
-      </h2>
-      <p>
-      </p>
-      <div class="notice">
-       ⚑ Сейчас это демонстрация интерфейса. BM25 и LLM не подключены.
-      </div>
-     </div>
-     <div class="chat">
-      <div class="chat-top">
-       <span class="online-dot">
-       </span>
-       Coworking AI
-       <span class="demo-tag">
-        ДЕМО
-       </span>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-       <div class="bubble bot">
-        Привет! Опишите, какой коворкинг вам нужен. Я покажу пример будущего ответа.
-       </div>
-      </div>
-      <form class="chat-input" id="chatForm">
-       <input id="question" placeholder="Например, до 800 ₽ с переговорной" required=""/>
-       <button aria-label="Отправить" type="submit">
-        ➜
-       </button>
-      </form>
-     </div>
-    </div>
-   </section>
-   <section class="section wrap about" id="about">
-    <div class="eyebrow dark">
-     О ПРОЕКТЕ
-    </div>
-    <h2>
-     Место, где работа становится вдохновением
-    </h2>
-    <p>
-     Уютная атмосфера, продуманное пространство и всё необходимое для продуктивного дня. CoworkingFinder объединяет коворкинги, среди которых ты сможешь найти идеальное сочетание комфорта, расположения и возможностей.
-   </section>
-  </main>
-  <footer>
-   <div class="wrap footer-inner">
-    <strong>
-     CoworkingFinder
-    </strong>
-    <span>
-     Учебный проект · 2026
-    </span>
-   </div>
-  </footer>
-  <dialog id="details">
-   <button aria-label="Закрыть" class="close" id="close">
-    ×
-   </button>
-   <div id="detailsContent">
-   </div>
-  </dialog>
-  <script src="data.js">
-  </script>
-  <script src="app.js">
-  </script>
- </body>
-</html>
 
+  <main class="layout">
+    <section class="talk" aria-label="Разговор с консультантом">
+      <ol class="progress" id="progress" aria-label="Прогресс брифа"></ol>
+      <div class="feed" id="feed" aria-live="polite"></div>
+      <div class="answers" id="answers"></div>
+      <form class="composer" id="composer" autocomplete="off">
+        <label class="visually-hidden" for="input">Ответ консультанту</label>
+        <input id="input" type="text" placeholder="Или напишите своими словами…" enterkeyhint="send">
+        <button class="send" id="send" type="submit" aria-label="Отправить" disabled>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </form>
+    </section>
+
+    <section class="board" id="board" aria-label="Подборка мест">
+      <div class="board-head">
+        <h2>Подборка</h2>
+        <div class="counter" aria-live="polite">
+          <span class="counter-num mono" id="countNum">10</span><span class="counter-total mono">/<span id="countTotal">10</span></span>
+        </div>
+        <button class="icon-btn only-mobile board-close" id="boardClose" type="button" aria-label="Закрыть подборку">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <div class="board-tools">
+        <div class="tokens" id="tokens"></div>
+        <div class="segmented" role="tablist" aria-label="Вид подборки">
+          <button type="button" role="tab" data-view="list" aria-selected="true">Места</button>
+          <button type="button" role="tab" data-view="compare" aria-selected="false">Сравнение</button>
+        </div>
+      </div>
+
+      <div class="board-body" id="boardBody">
+        <div class="grid" id="grid"></div>
+        <div class="compare-view" id="compareView" hidden></div>
+      </div>
+
+      <article class="detail" id="detail" aria-hidden="true" aria-labelledby="detailTitle">
+        <div class="detail-inner" id="detailContent"></div>
+      </article>
+    </section>
+  </main>
+  <div class="scrim" id="scrim"></div>
+
+  <dialog class="about" id="about" aria-labelledby="aboutTitle">
+    <button class="icon-btn about-close" id="aboutClose" type="button" aria-label="Закрыть">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <p class="mono about-kicker">учебный проект · кт1</p>
+    <h2 id="aboutTitle">О проекте</h2>
+    <p>
+      CoworkingFinder — ИИ-консультант для подбора коворкинга. Вместо фильтров — короткий разговор:
+      каждый ответ сразу сужает подборку, а в конце помощник объясняет выбор и помогает забронировать.
+    </p>
+    <h3>Работает сейчас</h3>
+    <ul>
+      <li>Бриф из 4 вопросов, ответы кнопками или свободным текстом.</li>
+      <li>Живая подборка, снятие условий, сравнение, источники <code>cw-…</code>.</li>
+      <li>Демонстрационная бронь — ничего не сохраняется и не отправляется.</li>
+    </ul>
+    <h3>Пока нет</h3>
+    <ul>
+      <li>Поиска BM25 и ответов LLM — текст разбирается правилами. Появятся на следующих КТ.</li>
+      <li>Реальных мест: названия, адреса и цены вымышленные.</li>
+      <li>Сервера, оплаты и настоящей брони.</li>
+    </ul>
+    <h3>Команда</h3>
+    <p class="muted">Коптелова Анна · Константинов Антон · Магкеев Георгий · Спорыньин Егор</p>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="assistant.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
