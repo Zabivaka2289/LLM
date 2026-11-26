@@ -361,6 +361,20 @@ code {
   animation: word-in 240ms var(--ease) both;
 }
 
+.say-src {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.say-src .mono {
+  margin-right: 6px;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
 .say-q {
   margin: 8px 0 0;
   font-size: 16.5px;
