@@ -11,6 +11,10 @@ const detailContent = $("#detailContent");
 const about = $("#about");
 
 const STORAGE_KEY = "cwf.brief.v2";
+// Backend RAG (BM25 + LLM). Если сайт открыт с самого backend (порт 8000) — тот же адрес,
+// иначе (файл или другой порт) — локальный сервер. Можно переопределить window.CWF_API.
+const API_BASE = window.CWF_API ?? (location.port === "8000" ? "" : "http://localhost:8000");
+const QUESTION_START = /^(?:(?:в|во|на|у|с|со|для|по|из|а|и)\s+)?(как|какой|какая|какие|каких|каком|сколько|можно|есть ли|где|когда|почему|зачем|что|чем|кто|нужн|бывают|вернут|работают|подойд)/;
 const THEME_KEY = "cwf.theme";
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobile = window.matchMedia("(max-width: 900px)");
@@ -156,6 +160,9 @@ async function appendBot(reply, { animate = true } = {}) {
     <span class="who">ии</span>
     <div class="say ${animate ? "pending" : ""}">
       ${reply.text ? '<p class="say-text"></p>' : ""}
+      ${reply.sources && reply.sources.length ? `<p class="say-src reveal">Источники: ${reply.sources
+        .map((source) => `<span class="mono" title="${escapeHtml(source.title || "")}">${escapeHtml(source.id)}</span>`)
+        .join(" ")}</p>` : ""}
       ${reply.question ? `<p class="say-q reveal">${escapeHtml(reply.question)}</p>` : ""}
       ${reply.booking ? ticketLineHtml(reply.booking) : ""}
     </div>`;
@@ -242,7 +249,7 @@ async function deliver(result, userText) {
   scrollToBottom(true);
 
   const typing = showTyping();
-  await wait(380 + Math.random() * 380);
+  [result] = await Promise.all([result, wait(380 + Math.random() * 380)]);
   typing.remove();
 
   state.session = result.session;
@@ -263,12 +270,45 @@ async function deliver(result, userText) {
   else if (result.reply.view && mobile.matches) openBoard();
 }
 
+function looksLikeQuestion(text) {
+  const t = text.trim().toLowerCase().replace(/ё/g, "е");
+  return /\?\s*$/.test(t) && QUESTION_START.test(t);
+}
+
+// Вопрос по документам: POST /api/ask → { answer, refused, sources, cited }.
+// Бриф и подборка не меняются; следующий вопрос брифа повторяется.
+async function askDocuments(text, local) {
+  try {
+    const response = await fetch(`${API_BASE}/api/ask`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: text, k: 5 }),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const byId = Object.fromEntries(data.sources.map((source) => [source.id, source]));
+    const ids = data.refused ? [] : data.cited.length ? data.cited : data.sources.map((source) => source.id);
+    return {
+      session: local.session,
+      reply: { ...local.reply, text: data.answer, sources: ids.map((id) => ({ id, title: byId[id]?.title })) },
+    };
+  } catch (error) {
+    return { ...local, reply: { ...local.reply, text: "Поиск по документам недоступен — запустите backend (см. README)." } };
+  }
+}
+
 function send(displayText, parseText = displayText) {
   const text = displayText.trim();
   if (!text || state.busy) return;
   input.value = "";
   updateSendState();
-  deliver(respond(parseText, state.session), text);
+  const local = respond(parseText, state.session);
+  const unknown = local.reply.text.startsWith("Не понял");
+  if (parseText === displayText && (looksLikeQuestion(text) || unknown)) {
+    deliver(askDocuments(text, respond("", state.session)), text);
+  } else {
+    deliver(local, text);
+  }
 }
 
 function removeToken(key) {
